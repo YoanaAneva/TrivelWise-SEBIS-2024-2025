@@ -1,1 +1,1 @@
-# TriverWise---SEBIS-2024-2025
+# TriverWise SEBIS-2024-2025
