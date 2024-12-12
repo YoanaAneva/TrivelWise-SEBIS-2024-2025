@@ -11,6 +11,7 @@ public class Category {
     private Long id;
     private String name;
     private String description;
+    @Column(columnDefinition = "TEXT")
     private String icon;
     @ManyToOne
     @JoinColumn(name="department_id")

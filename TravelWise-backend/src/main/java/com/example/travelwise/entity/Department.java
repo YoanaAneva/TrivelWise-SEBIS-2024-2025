@@ -14,6 +14,7 @@ public class Department {
     private Long id;
     private String name;
     private String description;
+    @Column(columnDefinition = "TEXT")
     private String icon;
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Category> categories = new ArrayList<>();
