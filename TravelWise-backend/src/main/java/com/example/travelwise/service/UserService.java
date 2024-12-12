@@ -27,8 +27,8 @@ public class UserService {
         this.imageService = imageService;
     }
 
-    public List<UserDTO> getAllUsers(Integer page, Integer size) {
-        Pageable pageable = PageRequest.of(page, size);
+    public List<UserDTO> getAllUsers(Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page, limit);
         return userRepository.findAll(pageable)
                 .stream()
                 .map(userMapper::mapToDTO)
