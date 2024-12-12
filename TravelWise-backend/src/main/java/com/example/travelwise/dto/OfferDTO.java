@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Data
 public class OfferDTO {
@@ -25,4 +26,5 @@ public class OfferDTO {
     private Integer availableSpots;
     @NotNull(message = "Offer category cannot be null")
     private Long categoryId;
+    private List<String> imageUrls;
 }
