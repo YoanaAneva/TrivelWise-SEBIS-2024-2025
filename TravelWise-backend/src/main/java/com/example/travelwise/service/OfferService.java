@@ -60,6 +60,7 @@ public class OfferService {
 
     public OfferDTO createOffer(OfferDTO offerDTO, List<MultipartFile> images) {
         Offer newOffer = offerMapper.mapToEntity(offerDTO);
+        newOffer = offerRepository.save(newOffer);
         System.out.println("Offer id: " + newOffer.getId());
         if (images != null) {
             for (MultipartFile image : images) {
@@ -67,8 +68,11 @@ public class OfferService {
             }
         }
         System.out.println("Offer images: " + newOffer.getImages().size());
-        newOffer = offerRepository.save(newOffer);
         System.out.println("Offer id: " + newOffer.getId());
         return offerMapper.mapToDTO(newOffer);
+    }
+
+    public void deleteOfferById(Long offerId) {
+        offerRepository.deleteById(offerId);
     }
 }
