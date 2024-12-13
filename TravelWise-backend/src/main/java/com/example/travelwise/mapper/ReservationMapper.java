@@ -12,11 +12,11 @@ public interface ReservationMapper {
     @Mapping(source = "offer.title", target = "offerTitle")
     @Mapping(source = "offer", target = "offerImageUrl", qualifiedByName = "mapOfferFirstImageUrl")
     @Mapping(source = "cart.id", target = "cartId")
-//    @Mapping(source = "order.id", target = "orderId")
     ReservationDTO mapToDTO(Reservation reservation);
+
     @Mapping(source = "offerId", target = "offer.id")
     @Mapping(source = "cartId", target = "cart.id")
-//    @Mapping(source = "orderId", target = "order.id")
+    @Mapping(source = "travelers", target = "travelers", ignore = true)
     Reservation mapToEntity(ReservationDTO reservationDTO);
 
     default String mapOfferFirstImageUrl(Offer offer) {
