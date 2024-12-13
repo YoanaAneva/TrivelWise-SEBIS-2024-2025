@@ -2,7 +2,7 @@ package com.example.travelwise.controller;
 
 import com.amazonaws.services.acmpca.model.ResourceNotFoundException;
 import com.example.travelwise.dto.OfferDTO;
-import com.example.travelwise.dto.UserDTO;
+import com.example.travelwise.repository.OfferRepository;
 import com.example.travelwise.service.OfferService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +19,7 @@ public class OfferController {
     private final OfferService offerService;
 
     @Autowired
-    public OfferController(OfferService offerService) {
+    public OfferController(OfferService offerService, OfferRepository offerRepository) {
         this.offerService = offerService;
     }
 
@@ -57,5 +57,14 @@ public class OfferController {
     public ResponseEntity<OfferDTO> createOffer(@RequestPart (required = false) List<MultipartFile> images,
                                                 @RequestPart @Valid OfferDTO offerDTO) {
         return new ResponseEntity<>(offerService.createOffer(offerDTO, images), HttpStatus.CREATED);
+    }
+
+//    @PutMapping("/{id}")
+//    public ResponseEntity<OfferDTO> updateOffer(@PathVariable Long id, @RequestBody OfferDTO offerDTO) {}
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteOffer(@PathVariable Long id) {
+        offerService.deleteOfferById(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
