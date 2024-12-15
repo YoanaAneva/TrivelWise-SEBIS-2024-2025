@@ -10,7 +10,7 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Double totalPrice;
-    private boolean isEmpty;
+    private Integer numberOfItems;
     @OneToOne
     @JoinColumn(name="user_id")
     private User user;

@@ -8,7 +8,8 @@ public class CartDTO {
     private Long id;
     @NotNull(message = "total price cannot be null")
     private Double totalPrice;
-    private boolean isEmpty;
+    @NotNull(message = "Number of items cannot be null")
+    private Integer numberOfItems;
     @NotNull(message = "user id cannot be null")
     private Long userId;
 }
