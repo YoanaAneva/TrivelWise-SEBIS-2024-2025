@@ -35,10 +35,8 @@ public class OfferService {
     }
 
     public OfferDTO getOfferById(Long offerId) {
-        Offer offer = offerRepository.findById(offerId).orElse(null);
-        if(offer == null) {
-            throw new ResourceNotFoundException("No offer with id: " + offerId);
-        }
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(() -> new ResourceNotFoundException("No offer with id: " + offerId));
         return offerMapper.mapToDTO(offer);
     }
 
@@ -61,14 +59,11 @@ public class OfferService {
     public OfferDTO createOffer(OfferDTO offerDTO, List<MultipartFile> images) {
         Offer newOffer = offerMapper.mapToEntity(offerDTO);
         newOffer = offerRepository.save(newOffer);
-        System.out.println("Offer id: " + newOffer.getId());
         if (images != null) {
             for (MultipartFile image : images) {
                 imageService.addImageToOffer(image, newOffer);
             }
         }
-        System.out.println("Offer images: " + newOffer.getImages().size());
-        System.out.println("Offer id: " + newOffer.getId());
         return offerMapper.mapToDTO(newOffer);
     }
 
