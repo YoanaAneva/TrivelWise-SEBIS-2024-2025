@@ -10,5 +10,4 @@ import org.springframework.stereotype.Repository;
 public interface OfferRepository extends JpaRepository<Offer, Long> {
     Page<Offer> findAllByCategoryId(Long categoryId, Pageable pageable);
     Page<Offer> findAllByCategoryDepartmentId(Long departmentId, Pageable pageable);
-
 }
