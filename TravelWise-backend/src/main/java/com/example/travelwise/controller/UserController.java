@@ -26,8 +26,8 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<List<UserDTO>> getAllUsers(@RequestParam(required = false, defaultValue = "0") Integer page,
-                                                     @RequestParam(required = false, defaultValue = "9") Integer size) {
-        return new ResponseEntity<>(userService.getAllUsers(page, size), HttpStatus.OK);
+                                                     @RequestParam(required = false, defaultValue = "9") Integer limit) {
+        return new ResponseEntity<>(userService.getAllUsers(page, limit), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
