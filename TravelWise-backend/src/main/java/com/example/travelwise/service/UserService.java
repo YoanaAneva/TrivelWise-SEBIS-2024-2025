@@ -19,12 +19,15 @@ public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final ImageService imageService;
+    private final CartService cartService;
 
     @Autowired
-    public UserService(UserRepository userRepository, UserMapper userMapper, ImageService imageService) {
+    public UserService(UserRepository userRepository, UserMapper userMapper,
+                       ImageService imageService, CartService cartService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.imageService = imageService;
+        this.cartService = cartService;
     }
 
     public List<UserDTO> getAllUsers(Integer page, Integer limit) {
@@ -36,27 +39,23 @@ public class UserService {
     }
 
     public UserDTO getUserById(Long userId) {
-        User user = userRepository.findById(userId).orElse(null);
-        if(user == null) {
-            throw new ResourceNotFoundException("No user with id: " + userId);
-        }
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException("No user with id: " + userId));
         return userMapper.mapToDTO(user);
     }
 
     public UserDTO createUser(MultipartFile profilePic, UserDTO userDTO) {
+        User user = userRepository.save(userMapper.mapToEntity(userDTO));
         if (profilePic != null) {
            String profilePicUrl = this.imageService.uploadImageToBucket(profilePic);
            userDTO.setProfilePictureUrl(profilePicUrl);
         }
-        User user = userRepository.save(userMapper.mapToEntity(userDTO));
         return userMapper.mapToDTO(user);
     }
 
     public UserDTO login(String email, String password) {
-        User user = userRepository.findByEmail(email);
-        if(user == null) {
-            throw new ResourceNotFoundException("No user with such email");
-        }
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new ResourceNotFoundException("No user with email: " + email));
         if(!user.getPassword().equals(password)){
             throw new ResourceNotFoundException("Password does not match email");
         }
@@ -76,6 +75,10 @@ public class UserService {
     }
 
     public void deleteUserById(Long userId) {
+        User userToBeDeleted = userRepository.findById(userId).orElse(null);
+        if(userToBeDeleted != null) {
+            cartService.deleteCartByUserId(userId);
+        }
         userRepository.deleteById(userId);
     }
 }
