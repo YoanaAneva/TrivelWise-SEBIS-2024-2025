@@ -13,4 +13,5 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     List<Reservation> findByCartId(Long cartId);
     Page<Reservation> findByCartId(Long cartId, Pageable pageable);
     Page<Reservation> findByCartUserId(Long userId, Pageable pageable);
+    void deleteByCartId(Long cartId);
 }
