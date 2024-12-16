@@ -5,8 +5,9 @@ import com.example.travelwise.entity.Offer;
 import com.example.travelwise.entity.Reservation;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {TravelerDetailsMapper.class})
 public interface ReservationMapper {
     @Mapping(source = "offer.id", target = "offerId")
     @Mapping(source = "offer.title", target = "offerTitle")
@@ -19,6 +20,7 @@ public interface ReservationMapper {
     @Mapping(source = "travelers", target = "travelers", ignore = true)
     Reservation mapToEntity(ReservationDTO reservationDTO);
 
+    @Named("mapOfferFirstImageUrl")
     default String mapOfferFirstImageUrl(Offer offer) {
         if (offer != null && offer.getImages() != null && !offer.getImages().isEmpty()) {
             return offer.getImages().get(0).getUrl();
