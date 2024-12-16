@@ -4,6 +4,7 @@ import com.example.travelwise.dto.UserDTO;
 import com.example.travelwise.entity.User;
 import com.example.travelwise.mapper.UserMapper;
 import com.example.travelwise.repository.UserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -74,8 +75,10 @@ public class UserService {
         return userMapper.mapToDTO(updatedUser);
     }
 
+    @Transactional
     public void deleteUserById(Long userId) {
         User userToBeDeleted = userRepository.findById(userId).orElse(null);
+        System.out.println("here 1");
         if(userToBeDeleted != null) {
             cartService.deleteCartByUserId(userId);
         }
