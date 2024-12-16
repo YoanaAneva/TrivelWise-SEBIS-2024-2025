@@ -2,7 +2,9 @@ package com.example.travelwise.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 
+@Data
 public class TravelerDetailsDTO {
     private Long id;
     @NotBlank(message = "traveler first name cannot be blank")
