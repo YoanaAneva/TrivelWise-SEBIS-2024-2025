@@ -2,15 +2,19 @@ package com.example.travelwise.service;
 
 import com.example.travelwise.dto.ReservationDTO;
 import com.example.travelwise.dto.TravelerDetailsDTO;
+import com.example.travelwise.entity.Cart;
+import com.example.travelwise.entity.Offer;
 import com.example.travelwise.entity.Reservation;
 import com.example.travelwise.entity.TravelerDetails;
 import com.example.travelwise.mapper.ReservationMapper;
 import com.example.travelwise.mapper.TravelerDetailsMapper;
+import com.example.travelwise.repository.OfferRepository;
 import com.example.travelwise.repository.ReservationRepository;
 import com.example.travelwise.repository.TravelerDetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,18 +26,20 @@ public class ReservationService {
     private final TravelerDetailsRepository travelerDetailsRepository;
     private final TravelerDetailsMapper travelerDetailsMapper;
     private final CartService cartService;
+    private final OfferRepository offerRepository;
 
     @Autowired
     public ReservationService(ReservationRepository reservationRepository,
                               ReservationMapper reservationMapper,
                               TravelerDetailsRepository travelerDetailsRepository,
                               TravelerDetailsMapper travelerDetailsMapper,
-                              CartService cartService) {
+                              CartService cartService, OfferRepository offerRepository) {
         this.reservationRepository = reservationRepository;
         this.reservationMapper = reservationMapper;
         this.travelerDetailsRepository = travelerDetailsRepository;
         this.travelerDetailsMapper = travelerDetailsMapper;
         this.cartService = cartService;
+        this.offerRepository = offerRepository;
     }
 
     public List<ReservationDTO> getReservationsByCart(Long cartId, Integer page, Integer limit) {
@@ -54,11 +60,14 @@ public class ReservationService {
 
     public ReservationDTO createReservation(ReservationDTO reservationDTO) {
         Reservation newReservation = reservationMapper.mapToEntity(reservationDTO);
-        reservationRepository.save(newReservation);
+        linkReservationToOffer(newReservation, reservationDTO.getOfferId());
+        linkReservationToCart(newReservation, reservationDTO.getCartId());
+        newReservation = reservationRepository.save(newReservation);
+
         for (TravelerDetailsDTO detailsDTO : reservationDTO.getTravelers()) {
             TravelerDetails newDetails = travelerDetailsMapper.mapToEntity(detailsDTO);
+            newDetails.setReservation(newReservation);
             travelerDetailsRepository.save(newDetails);
-            System.out.println("New Details:\n" + newDetails);
             newReservation.getTravelers().add(newDetails);
         }
         cartService.addReservationToCart(reservationDTO.getCartId(), reservationDTO.getTotalPrice());
@@ -73,11 +82,14 @@ public class ReservationService {
         reservationRepository.deleteById(reservationId);
     }
 
-    public void payReservationsInCart(Long cartId) {
-        List<Reservation> reservationsInCart = reservationRepository.findByCartId(cartId);
-        for (Reservation reservation : reservationsInCart) {
-            reservation.setPaid(true);
-        }
-        reservationRepository.saveAll(reservationsInCart);
+    private void linkReservationToOffer(Reservation newReservation, Long offerId) {
+        Offer offer = offerRepository.findById(offerId)
+                .orElseThrow(() -> new ResourceNotFoundException("No offer found with id: " + offerId));
+        newReservation.setOffer(offer);
+    }
+
+    private void linkReservationToCart(Reservation newReservation, Long cartId) {
+        Cart cart = cartService.getCartById(cartId);
+        newReservation.setCart(cart);
     }
 }
