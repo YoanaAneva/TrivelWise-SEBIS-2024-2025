@@ -19,4 +19,5 @@ public class User {
     private LocalDate birthDate;
     private String phoneNumber;
     private String profilePictureUrl;
+    private Long cartId;
 }
