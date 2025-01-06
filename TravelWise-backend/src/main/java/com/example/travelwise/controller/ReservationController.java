@@ -34,6 +34,13 @@ public class ReservationController {
         return new ResponseEntity<>(reservationService.getReservationsByUser(userId, page, limit), HttpStatus.OK);
     }
 
+    @GetMapping("/cart/{cartId}/last/{lastN}")
+    public ResponseEntity<List<Long>> getLastReservationOfferIdsByUser(@PathVariable Long cartId,
+                                                                       @PathVariable Integer lastN) {
+        List<Long> lastNOfferIds = reservationService.getOfferIdOfLastNReservationsForUser(cartId, lastN);
+        return new ResponseEntity<>(lastNOfferIds, HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<ReservationDTO> createReservation(@RequestBody ReservationDTO reservationDTO) {
         try{
