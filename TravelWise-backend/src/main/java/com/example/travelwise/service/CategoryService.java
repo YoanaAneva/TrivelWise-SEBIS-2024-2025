@@ -5,6 +5,7 @@ import com.example.travelwise.entity.Category;
 import com.example.travelwise.mapper.CategoryMapper;
 import com.example.travelwise.repository.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,6 +23,12 @@ public class CategoryService {
 
     public List<CategoryDTO> getAllCategories() {
         return categoryRepository.findAll().stream().map(categoryMapper::mapToDTO).toList();
+    }
+
+    public CategoryDTO getCategoryById(Long id) {
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("No category with id: " + id));
+        return categoryMapper.mapToDTO(category);
     }
 
     public List<CategoryDTO> getCategoriesByDepartment(Long departmentId) {

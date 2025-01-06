@@ -1,5 +1,6 @@
 package com.example.travelwise.controller;
 
+import com.amazonaws.services.acmpca.model.ResourceNotFoundException;
 import com.example.travelwise.dto.CategoryDTO;
 import com.example.travelwise.service.CategoryService;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,17 @@ public class CategoryController {
     @GetMapping
     public ResponseEntity<List<CategoryDTO>> getAllCategories() {
         return new ResponseEntity<>(categoryService.getAllCategories(), HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CategoryDTO> getById(@PathVariable Long id) {
+        try {
+            CategoryDTO category = categoryService.getCategoryById(id);
+            return new ResponseEntity<>(category, HttpStatus.OK);
+        } catch (ResourceNotFoundException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
 
     @GetMapping("/department/{departmentId}")
