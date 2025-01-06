@@ -12,4 +12,12 @@ public class CartDTO {
     private Integer numberOfItems;
     @NotNull(message = "user id cannot be null")
     private Long userId;
+
+    public CartDTO(){}
+
+    public CartDTO(Double totalPrice, Integer numberOfItems, Long userId) {
+        this.totalPrice = totalPrice;
+        this.numberOfItems = numberOfItems;
+        this.userId = userId;
+    }
 }
