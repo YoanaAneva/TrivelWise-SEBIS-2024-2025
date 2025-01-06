@@ -13,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.security.InvalidParameterException;
 
 @Service
 public class ImageService {
@@ -28,11 +27,7 @@ public class ImageService {
         this.s3Client = s3Client;
     }
 
-    public Image addImageToOffer(MultipartFile imageFile, Offer offer) {
-        if(offer == null) {
-            throw new InvalidParameterException("You must provide an offer for adding picture");
-        }
-
+    public void addImageToOffer(MultipartFile imageFile, Offer offer) {
         Image newImage = new Image();
         String imageUrl = uploadImageToBucket(imageFile);
         newImage.setUrl(imageUrl);
@@ -40,7 +35,7 @@ public class ImageService {
         newImage.setOffer(offer);
         offer.getImages().add(newImage);
 
-        return imageRepository.save(newImage);
+        imageRepository.save(newImage);
     }
 
     public String uploadImageToBucket(MultipartFile mPartFile) {
