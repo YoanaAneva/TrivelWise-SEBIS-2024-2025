@@ -1,6 +1,7 @@
 package com.example.travelwise.service;
 
 import com.example.travelwise.dto.OfferDTO;
+import com.example.travelwise.entity.Image;
 import com.example.travelwise.entity.Offer;
 import com.example.travelwise.mapper.OfferMapper;
 import com.example.travelwise.repository.OfferRepository;
@@ -13,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class OfferService {
@@ -48,6 +50,14 @@ public class OfferService {
                 .toList();
     }
 
+    public List<OfferDTO> getAvailableOffersByCategoryId(Long categoryId, Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page, limit);
+        return offerRepository.findByCategoryIdAndAvailableSpotsGreaterThan(categoryId, 0, pageable)
+                .stream()
+                .map(offerMapper::mapToDTO)
+                .toList();
+    }
+
     public List<OfferDTO> getOffersByDepartmentId(Long departmentId, Integer page, Integer limit) {
         Pageable pageable = PageRequest.of(page, limit);
         return offerRepository.findAllByCategoryDepartmentId(departmentId, pageable)
@@ -68,6 +78,20 @@ public class OfferService {
     }
 
     public void deleteOfferById(Long offerId) {
+        Offer offerToDelete = offerRepository.findById(offerId).orElse(null);
+        if(offerToDelete != null) {
+            List<Image> offerImages = offerToDelete.getImages();
+            for (Image image : offerImages) {
+                imageService.deleteFile(image.getUrl());
+            }
+        }
         offerRepository.deleteById(offerId);
+    }
+
+    public List<OfferDTO> getRecommendedOffers(Long offerId, Integer limitCount) {
+        return offerRepository.getRecommendedOffers(offerId, limitCount)
+                .stream()
+                .map(offerMapper::mapToDTO)
+                .toList();
     }
 }

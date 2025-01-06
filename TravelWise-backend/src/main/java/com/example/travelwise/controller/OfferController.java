@@ -46,6 +46,13 @@ public class OfferController {
         return new ResponseEntity<>(offerService.getOffersByCategoryId(categoryId, page, limit), HttpStatus.OK);
     }
 
+    @GetMapping("/category/available/{categoryId}")
+    public ResponseEntity<List<OfferDTO>> getAllAvailableOffersByCategory(@PathVariable Long categoryId,
+                                                                 @RequestParam(required = false, defaultValue = "0") Integer page,
+                                                                 @RequestParam(required = false, defaultValue = "9") Integer limit) {
+        return new ResponseEntity<>(offerService.getAvailableOffersByCategoryId(categoryId, page, limit), HttpStatus.OK);
+    }
+
     @GetMapping("/department/{departmentId}")
     public ResponseEntity<List<OfferDTO>> getAllOffersByDepartment(@PathVariable Long departmentId,
                                                                  @RequestParam(required = false, defaultValue = "0") Integer page,
@@ -53,14 +60,17 @@ public class OfferController {
         return new ResponseEntity<>(offerService.getOffersByDepartmentId(departmentId, page, limit), HttpStatus.OK);
     }
 
+    @GetMapping("/recommendations/{offerId}")
+    public ResponseEntity<List<OfferDTO>> geRecommendedOffers(@PathVariable Long offerId,
+                                                              @RequestParam(required = false, defaultValue = "3") Integer numOfRec) {
+        return new ResponseEntity<>(offerService.getRecommendedOffers(offerId, 3), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<OfferDTO> createOffer(@RequestPart (required = false) List<MultipartFile> images,
                                                 @RequestPart @Valid OfferDTO offerDTO) {
         return new ResponseEntity<>(offerService.createOffer(offerDTO, images), HttpStatus.CREATED);
     }
-
-//    @PutMapping("/{id}")
-//    public ResponseEntity<OfferDTO> updateOffer(@PathVariable Long id, @RequestBody OfferDTO offerDTO) {}
 
     @DeleteMapping("/{id}")
     public ResponseEntity<HttpStatus> deleteOffer(@PathVariable Long id) {
