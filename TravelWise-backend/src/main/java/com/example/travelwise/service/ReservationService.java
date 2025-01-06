@@ -16,8 +16,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservationService {
@@ -58,7 +60,17 @@ public class ReservationService {
                 .toList();
     }
 
+    public List<Long> getOfferIdOfLastNReservationsForUser(Long userId, Integer lastN) {
+        return reservationRepository.getLastNOfferIdsByCart(userId, lastN);
+    }
+
+    @Transactional
     public ReservationDTO createReservation(ReservationDTO reservationDTO) {
+        Optional<Reservation> reservation = reservationRepository.findByOfferIdAndIsPaidFalse(reservationDTO.getOfferId());
+        if (reservation.isPresent()) {
+            return mergeReservation(reservationDTO, reservation.get());
+        }
+
         Reservation newReservation = reservationMapper.mapToEntity(reservationDTO);
         linkReservationToOffer(newReservation, reservationDTO.getOfferId());
         linkReservationToCart(newReservation, reservationDTO.getCartId());
@@ -70,16 +82,31 @@ public class ReservationService {
             travelerDetailsRepository.save(newDetails);
             newReservation.getTravelers().add(newDetails);
         }
-        cartService.addReservationToCart(reservationDTO.getCartId(), reservationDTO.getTotalPrice());
+
+        cartService.addReservationToCart(reservationDTO.getCartId(), reservationDTO.getTotalPrice(), 1);
         return reservationMapper.mapToDTO(newReservation);
     }
 
     public void deleteReservation(Long reservationId) {
         Reservation toBeDeleted = reservationRepository.findById(reservationId).orElse(null);
-        if(toBeDeleted != null) {
+        if(toBeDeleted != null && !toBeDeleted.isPaid()) {
             cartService.removeReservationFromCart(toBeDeleted.getCart().getId(), toBeDeleted.getTotalPrice());
         }
         reservationRepository.deleteById(reservationId);
+    }
+
+    private ReservationDTO mergeReservation(ReservationDTO newReservation, Reservation reservationForSameOffer) {
+        Double newTotalPrice = newReservation.getTotalPrice() + reservationForSameOffer.getTotalPrice();
+        reservationForSameOffer.setTotalPrice(newTotalPrice);
+
+        for(TravelerDetailsDTO detailsDTO : newReservation.getTravelers()) {
+            TravelerDetails newDetails = travelerDetailsMapper.mapToEntity(detailsDTO);
+            newDetails.setReservation(reservationForSameOffer);
+            travelerDetailsRepository.save(newDetails);
+            reservationForSameOffer.getTravelers().add(newDetails);
+        }
+        cartService.addReservationToCart(newReservation.getCartId(), newReservation.getTotalPrice(), 0);
+        return reservationMapper.mapToDTO(reservationForSameOffer);
     }
 
     private void linkReservationToOffer(Reservation newReservation, Long offerId) {
