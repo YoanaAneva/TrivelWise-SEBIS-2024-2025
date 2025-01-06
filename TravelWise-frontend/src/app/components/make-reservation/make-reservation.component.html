@@ -1,0 +1,41 @@
+<app-nav-bar></app-nav-bar>
+<form [formGroup]="travelerForm">
+  <h1>Make your reservation for <span class="offer-title">{{ offer.title }}</span></h1>
+  <h2>Total amount: {{ totalPrice }}</h2>
+  <div formArrayName="travelers" class="travelers-container">
+    <div *ngFor="let traveler of travelers.controls; let i=index">
+      <div [formGroupName]="i" class="traveler-info">
+        <div class="info-header">Traveler info:</div>
+        <div class="names">
+          <mat-form-field appearance="fill">
+            <mat-label>First name</mat-label>
+            <input matInput formControlName="firstName" required>
+          </mat-form-field>
+          <mat-form-field>
+            <mat-label>Surname</mat-label>
+            <input matInput formControlName="surname" required>
+          </mat-form-field>
+        </div>
+        <div class="contact-info">
+          <mat-form-field appearance="fill">
+            <mat-label>Email</mat-label>
+            <input matInput type="email" formControlName="email" required>
+            <mat-error *ngIf="travelers.at(i).get('email')?.hasError('email')">
+              Please enter a valid email address
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field appearance="fill">
+            <mat-label>Phone number</mat-label>
+            <input matInput type="email" formControlName="phoneNumber" required>
+          </mat-form-field>
+        </div>
+        <button class="delete-btn" (click)="removeTraveler(i)">x</button>
+      </div>
+    </div>
+  </div>
+  <div class="wrapper">
+    <button mat-button class="add-btn" (click)="addTraveler()">Add Traveler</button>
+    <div class="small-text">Available spots: {{ offer.availableSpots }}</div>
+    <button mat-raised-button class="submit-btn" (click)="onSubmit()">Make Reservation</button>
+  </div>
+</form>

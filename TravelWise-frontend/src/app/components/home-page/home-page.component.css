@@ -1,0 +1,50 @@
+.image {
+  width: 100%;
+  height: auto;
+}
+
+.image-container {
+  position: relative;
+}
+
+.home-page-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-family: Arial, serif;
+  text-align: center;
+}
+
+.head-message {
+  font-weight: bold;
+  font-size: 42px;
+  margin: 0;
+}
+
+.sign-up-text {
+  font-size: 22px;
+  font-family: "Calibri Light", serif;
+}
+
+.home-page-message .sign-up-btn {
+  margin-top: 30px;
+  background: #313178;
+  color: white;
+  font-size: 20px;
+  padding: 30px 20px;
+}
+
+.log-in-message {
+  font-size: 20px;
+}
+
+.home-page-message .log-in-btn {
+  color: white;
+  font-size: 20px;
+  text-decoration: underline;
+  background: none;
+  border: none;
+  cursor: pointer;
+}

@@ -1,0 +1,28 @@
+<app-nav-bar></app-nav-bar>
+<div class="login-container">
+  <div class="left-section">
+    <img class="login-image" src="assets/login-image.png" alt="login image">
+  </div>
+  <div class="right-section">
+    <form [formGroup]="logInForm">
+      <h2>Log in</h2>
+      <div class="field-header">Email</div>
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" required/>
+        <mat-error *ngIf="logInForm.get('email')?.hasError('noEmail')"></mat-error>
+      </mat-form-field>
+      <div class="field-header">Password</div>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password" required>
+        <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword">
+          <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+        <mat-error *ngIf="logInForm.get('password')?.hasError('noPassword')"></mat-error>
+      </mat-form-field>
+    </form>
+    <div class="error-msg" *ngIf="!userExists">Incorrect email or password!</div>
+    <button mat-button class="login-btn" (click)="logIn()">LOGIN</button>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+form {
+  padding: 2rem;
+}
+
+.travelers-container {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.traveler-info {
+  display: flex;
+  flex-direction: column;
+  border: 1px #313178 solid;
+  padding: 0 0 10px 30px;
+  width: 50%;
+  position: relative;
+}
+
+.traveler-info .delete-btn {
+  background: #313178;
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  position: absolute;
+  right: 3%;
+  top: 5%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: none;
+}
+
+h1, h2{
+  font-weight: lighter;
+}
+
+.offer-title {
+  color: #313178;
+  font-weight: lighter;
+}
+
+.info-header {
+  font-size: 20px;
+  font-style: italic;
+  margin: 20px 0;
+}
+
+mat-form-field {
+  width: 14rem;
+  height: 4.5rem;
+  margin-right: 20px;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+form .add-btn {
+  border: 1px #313178 solid;
+  color: #313178;
+  margin: 1.5rem 0.7rem auto 1rem;
+  font-size: 16px;
+  padding: 26px 30px;
+}
+
+form .submit-btn {
+  background: #313178;
+  color: white;
+  margin: 1.5rem 3rem auto 0;
+  font-size: 18px;
+  padding: 30px 40px;
+}
+
+.small-text {
+  font-style: italic;
+  font-size: 14px;
+  margin-right: 7rem;
+  padding-top: 54px;
+}

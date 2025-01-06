@@ -1,0 +1,20 @@
+<app-nav-bar></app-nav-bar>
+<div class="personal-info">
+  <div class="left-section">
+    <img [src]="this.user.profilePictureUrl !== null  ? this.user.profilePictureUrl : 'assets/no-profile-pic.webp'"
+         class="profilePic" alt="profile picture"/>
+  </div>
+  <div class="right-section">
+    <h1>Your personal info:</h1>
+    <div class="line">{{ user.firstName }} {{ user.surname }}</div>
+    <div class="line">Email: {{ user.email }}</div>
+    <div class="line">Phone Number: {{ user.phoneNumber }}</div>
+    <div class="line">Birthdate: {{ user.birthDate }}</div>
+    <button mat-button class="custom-btn" (click)="logOut()">Log out</button>
+    <button mat-button class="custom-btn delete-btn" (click)="deleteAccount()">Delete Profile</button>
+  </div>
+</div>
+<div class="reservations-container">
+  <h1>Your reservations: </h1>
+  <app-reservation-card *ngFor="let reservation of reservations" [reservation]="reservation"></app-reservation-card>
+</div>

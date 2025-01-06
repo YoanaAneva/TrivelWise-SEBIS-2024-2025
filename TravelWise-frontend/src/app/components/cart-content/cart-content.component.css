@@ -1,0 +1,71 @@
+.cart-content {
+  background: white;
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 18px;
+  border: 1px solid #313178;
+  border-radius: 10px;
+}
+
+.wrapper {
+  border: 1px solid #313178;
+  padding: 10px;
+  border-radius: 10px;
+  max-width: 22rem;
+}
+
+.reservation-info {
+  font-size: 16px;
+}
+
+.upper-section {
+  display: flex;
+  flex-direction: row;
+}
+
+.offer-title {
+  text-decoration: underline;
+  cursor: pointer;
+  color: #313178;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+
+.delete-btn {
+  background: #313178;
+  color: white;
+  font-size: 12px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  margin-top: 4px;
+  margin-left: 12px;
+}
+
+.icon {
+  width: 16px;
+  height: 16px;
+}
+
+.unavailable {
+  color: crimson;
+}
+
+mat-divider {
+  margin: 10px auto;
+}
+
+.lower-section {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+
+.check-btn {
+  background: #313178;
+  color: white;
+  margin-left: 50px;
+}

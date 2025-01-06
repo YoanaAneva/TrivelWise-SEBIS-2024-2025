@@ -1,0 +1,121 @@
+.details-container {
+  max-width: 100%;
+  height: auto;
+  padding: 3rem 5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.first-section {
+  display: flex;
+  flex-direction: row;
+  border-radius: 10px;
+}
+
+.first-section c-carousel {
+  width: 34rem;
+  height: auto;
+}
+
+.carousel-image {
+  width: 100%;
+  height: auto;
+}
+
+c-carousel-inner {
+  position: relative;
+}
+
+c-carousel-control {
+  color: white;
+  position: absolute;
+  top: 50%;
+}
+
+c-carousel-control:hover {
+  transform: scale(1.2);
+}
+
+.right-arrow {
+  left: 93%;
+}
+
+.left-arrow mat-icon,
+.right-arrow mat-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+}
+
+c-carousel-indicators {
+  position: absolute;
+  top: 88%;
+  left: 40%;
+}
+
+.offer-info {
+  padding: 5px 0 5px 30px;
+  color: #555555;
+}
+
+.offer-title {
+  margin: 0 0 30px 0;
+}
+
+.offer-line .icon {
+  width: 20px;
+  height: 20px;
+  margin-right: 3px;
+}
+
+.offer-line {
+  margin-top: 20px;
+  font-size: 18px;
+}
+
+.small-text{
+  font-style: italic;
+  font-size: 16px;
+}
+
+.price-and-reservation {
+  display: flex;
+  flex-direction: row;
+}
+
+.price-box {
+  width: 8rem;
+  border: #313178 2px solid;
+  border-radius: 5px;
+  padding: 20px 0;
+  display: flex;
+  align-items: center;
+}
+
+.price-text {
+  margin: auto;
+  color: #313178;
+  font-weight: bold;
+}
+
+.price-and-reservation .reservation-btn {
+  color: white;
+  font-size: 18px;
+  background: #313178;
+  border-radius: 20px;
+  padding: 32px 50px;
+  margin-left: 10rem;
+}
+
+.second-section {
+  max-width: 90%;
+}
+
+h3 {
+  color: #313178;
+  font-weight: bold;
+}
+
+.price-and-reservation .reservation-btn.unavailable {
+  background: #555555;
+}

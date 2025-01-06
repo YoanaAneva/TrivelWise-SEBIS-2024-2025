@@ -1,0 +1,51 @@
+.registration-form {
+  border: 1.6px #313178 solid;
+  width: 36rem;
+  display: flex;
+  flex-direction: column;
+  margin: 20px auto;
+}
+
+mat-card-title {
+  font-weight: lighter;
+}
+
+.form-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 18px;
+}
+
+mat-form-field {
+  width: 15rem;
+  height: 68px;
+  margin-bottom: 6px;
+}
+
+.reg-part {
+  display: flex;
+  flex-direction: column;
+}
+
+.picture-section {
+  width: 15rem;
+  height: 50px;
+  border-bottom: 1px black solid;
+  color: #5a5a5a;
+  background: #e4e4eb;
+}
+
+.picture-section label {
+  margin-left: 10px;
+}
+
+.registration-form .submit-btn {
+  background: #313178;
+  color: white;
+  font-size: 18px;
+  width: 12rem;
+  padding: 25px;
+  border-radius: 20px;
+  margin: auto;
+}

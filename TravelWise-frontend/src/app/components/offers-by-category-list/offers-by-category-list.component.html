@@ -1,0 +1,13 @@
+<app-nav-bar></app-nav-bar>
+<div class="offers-container">
+  <mat-grid-list cols="3">
+    <mat-grid-tile *ngFor="let offer of offers" colspan="1" rowspan="1">
+      <app-offer-card [offer]="offer"></app-offer-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+  <div class="paginator-wrapper">
+    <mat-paginator [length]="numOfItems" [pageSize]=pageSize [pageIndex]=currentPage (page)=pageChanged($event) class="paginator"></mat-paginator>
+    <p class="page-number"><span class="page-size">Items per page: {{pageSize}}</span><span>Page {{currentPage + 1}}</span></p>
+  </div>
+</div>
+

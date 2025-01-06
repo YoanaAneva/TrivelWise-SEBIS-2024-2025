@@ -1,0 +1,38 @@
+.offers-container {
+  display: flex;
+  flex-direction: column;
+  margin-top: 2rem;
+  position: relative;
+}
+
+mat-grid-list {
+  width: 100%;
+}
+
+mat-grid-tile {
+  display: flex;
+  align-items: stretch;
+}
+
+.paginator-wrapper {
+  margin-top: 12px;
+  position: absolute;
+  top: 100%;
+  left: 36%;
+}
+
+.paginator{
+  font-size: medium;
+  color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.page-number {
+  position: absolute;
+  top: 3px;
+  left: 10%;
+}
+
+.page-size {
+  margin-right: 30px;
+}

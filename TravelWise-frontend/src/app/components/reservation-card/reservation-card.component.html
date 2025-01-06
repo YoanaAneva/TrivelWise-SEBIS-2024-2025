@@ -1,0 +1,31 @@
+<mat-card>
+  <mat-card-content>
+    <mat-card-title>Reservation number: {{ reservation.reservationNum }}</mat-card-title>
+    <div class="reservation-info">
+      <div class="first-section">
+        <img [src]="reservation.offerImageUrl !== null ? reservation.offerImageUrl : 'assets/no-photo.png'"
+             alt="offer image" (click)="navigateToOfferDetails()">
+        <h3 class="offer-title" (click)="navigateToOfferDetails()">
+          {{ reservation.offerTitle }}</h3>
+      </div>
+      <div class="second-section">
+        <div class="second-section-line">
+          Reservation date:
+          {{ reservation.reservationDate }}
+        </div>
+        <div class="second-section-line">
+          Total price:<br/>
+          {{ reservation.totalPrice }} BGN
+        </div>
+      </div>
+      <div class="third-section">
+        <h3>Travelers Info: </h3>
+        <div class="traveler-details" *ngFor="let traveler of reservation.travelers">
+          <div>{{ traveler.travelerFirstName }} {{ traveler.travelerSurname }}</div>
+          <div>{{ traveler.travelerEmail }}</div>
+          <div>{{ traveler.travelerPhoneNumber }}</div>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

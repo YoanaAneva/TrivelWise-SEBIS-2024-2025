@@ -1,0 +1,50 @@
+.personal-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.left-section {
+  width: 30%;
+  margin: 40px 60px 10px 40px;
+}
+
+.profilePic {
+  width: 100%;
+}
+
+.right-section {
+  width: 50%;
+  margin-top: 20px;
+  position: relative;
+}
+
+h1 {
+  font-weight: lighter;
+  color: #313178;
+  font-family: "Calibri", serif;
+}
+
+.line {
+  margin-bottom: 30px;
+  font-size: 20px;
+}
+
+.reservations-container {
+  margin: 30px 40px;
+}
+
+.right-section .custom-btn {
+  background: #313178;
+  color: white;
+  font-size: 22px;
+  padding: 30px 50px;
+  border-radius: 40px;
+  margin: 10px auto;
+  position: absolute;
+  right: 0;
+}
+
+.right-section .delete-btn {
+  padding: 30px 40px;
+  top: 24rem;
+}
