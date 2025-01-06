@@ -42,15 +42,18 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<UserDTO> createUser(@RequestPart(required = false) MultipartFile profilePic,
-                                              @RequestPart @Valid UserDTO userDTO) {
+    public ResponseEntity<?> createUser(@RequestPart(required = false) MultipartFile profilePic,
+                                        @RequestPart @Valid UserDTO userDTO) {
+        if(userService.userExist(userDTO.getEmail())) {
+            return new ResponseEntity<>("User with the email already exists", HttpStatus.CONFLICT);
+        }
         return new ResponseEntity<>(userService.createUser(profilePic, userDTO), HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<UserDTO> login(@RequestBody Map<String, String> loginRequest) {
         try {
-            UserDTO loginUser = userService.login(loginRequest.get("email"), loginRequest.get("email"));
+            UserDTO loginUser = userService.login(loginRequest.get("email"), loginRequest.get("password"));
             return new ResponseEntity<>(loginUser, HttpStatus.OK);
         } catch (ResourceNotFoundException e) {
             System.out.println(e.getMessage());

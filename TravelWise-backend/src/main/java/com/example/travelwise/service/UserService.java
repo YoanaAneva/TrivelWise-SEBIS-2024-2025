@@ -1,5 +1,6 @@
 package com.example.travelwise.service;
 
+import com.example.travelwise.dto.CartDTO;
 import com.example.travelwise.dto.UserDTO;
 import com.example.travelwise.entity.User;
 import com.example.travelwise.mapper.UserMapper;
@@ -49,8 +50,12 @@ public class UserService {
         User user = userRepository.save(userMapper.mapToEntity(userDTO));
         if (profilePic != null) {
            String profilePicUrl = this.imageService.uploadImageToBucket(profilePic);
-           userDTO.setProfilePictureUrl(profilePicUrl);
+           user.setProfilePictureUrl(profilePicUrl);
+           userRepository.save(user);
         }
+        CartDTO newUserCart = new CartDTO(0.0,0,user.getId());
+        CartDTO newCart = cartService.createCart(newUserCart);
+        user.setCartId(newCart.getId());
         return userMapper.mapToDTO(user);
     }
 
@@ -75,12 +80,18 @@ public class UserService {
         return userMapper.mapToDTO(updatedUser);
     }
 
+    public boolean userExist(String userEmail) {
+        return userRepository.findByEmail(userEmail).isPresent();
+    }
+
     @Transactional
     public void deleteUserById(Long userId) {
         User userToBeDeleted = userRepository.findById(userId).orElse(null);
-        System.out.println("here 1");
         if(userToBeDeleted != null) {
             cartService.deleteCartByUserId(userId);
+        }
+        if(userToBeDeleted.getProfilePictureUrl() != null) {
+            imageService.deleteFile(userToBeDeleted.getProfilePictureUrl());
         }
         userRepository.deleteById(userId);
     }
