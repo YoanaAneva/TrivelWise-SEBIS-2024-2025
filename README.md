@@ -1,1 +1,1 @@
-# TriverWise SEBIS-2024-2025
+# TravelWise SEBIS-2024-2025
