@@ -27,4 +27,5 @@ public class OfferDTO {
     @NotNull(message = "Offer category cannot be null")
     private Long categoryId;
     private List<String> imageUrls;
+    private List<String> tags;
 }
