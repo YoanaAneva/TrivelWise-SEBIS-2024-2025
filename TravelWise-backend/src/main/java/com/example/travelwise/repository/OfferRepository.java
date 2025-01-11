@@ -18,5 +18,4 @@ public interface OfferRepository extends JpaRepository<Offer, Long> {
 
     @Query(value = "SELECT * FROM get_recommended_offers(:targetOfferId, :limitCount)", nativeQuery = true)
     List<Offer> getRecommendedOffers(@Param("targetOfferId") Long targetOfferId, @Param("limitCount") int limitCount);
-
 }
