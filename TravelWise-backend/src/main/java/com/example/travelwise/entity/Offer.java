@@ -40,7 +40,7 @@ class StringListConverter implements AttributeConverter<List<String>, String> {
         if (attribute == null || attribute.isEmpty()) {
             return "{}";
         }
-        return "{" + attribute.stream().map(tag -> "\"" + tag + "\"").collect(Collectors.joining(",")) + "}";
+        return "{" + attribute.stream().map(tag -> "\"" + tag + "\"").collect(Collectors.joining(";")) + "}";
     }
 
     @Override
@@ -48,7 +48,7 @@ class StringListConverter implements AttributeConverter<List<String>, String> {
         if (dbData == null || dbData.isEmpty()) {
             return List.of();
         }
-        return Arrays.asList(dbData.replaceAll("[{}\"]", "").split(","));
+        return Arrays.asList(dbData.replaceAll("[{}\"]", "").split(";"));
     }
 }
 
