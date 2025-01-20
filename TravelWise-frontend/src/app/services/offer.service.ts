@@ -25,7 +25,6 @@ export class OfferService {
       params = params.set('limit', pageSize.toString());
     }
     return this.http.get<Offer[]>(this.apiUrl + '/category/available/' + categoryId, { params });
-
   }
 
   getRecommendedOffers(offerId: number) {
@@ -37,5 +36,18 @@ export class OfferService {
         this.recommendationsCache.set(offerId, recommendations);
       })
     );
+  }
+
+  seachOfferByTitle(title: string, currentPage: number, pageSize: number): Observable<Offer[]> {
+    let params = new HttpParams();
+    params = params.set('title', title);
+    if(currentPage !== undefined && currentPage !== null && currentPage >= 0) {
+      params = params.set('page', currentPage.toString());
+    }
+    if(pageSize !== undefined && pageSize !== null && pageSize >= 0) {
+      params = params.set('limit', pageSize.toString());
+    }
+    console.log(params);
+    return this.http.get<Offer[]>(this.apiUrl + '/search', { params });
   }
 }

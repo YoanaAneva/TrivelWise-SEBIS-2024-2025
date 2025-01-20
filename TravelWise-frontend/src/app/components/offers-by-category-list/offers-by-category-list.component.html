@@ -1,4 +1,12 @@
 <app-nav-bar></app-nav-bar>
+<div class="search-bar">
+  <mat-form-field class="search-field">
+    <input matInput type="search" placeholder="Search offers..." [(ngModel)]="searchQuery">
+  </mat-form-field>
+  <button matSuffix mat-icon-button aria-label="Search" (click)="searchOffersByTitle()">
+    <mat-icon aria-hidden="false">search</mat-icon>
+  </button>
+</div>
 <div class="offers-container">
   <mat-grid-list cols="3">
     <mat-grid-tile *ngFor="let offer of offers" colspan="1" rowspan="1">

@@ -36,3 +36,12 @@ mat-grid-tile {
 .page-size {
   margin-right: 30px;
 }
+
+.search-field {
+  height: 65px;
+  width: 260px;
+}
+
+.search-bar {
+  margin: 14px auto auto 920px;
+}

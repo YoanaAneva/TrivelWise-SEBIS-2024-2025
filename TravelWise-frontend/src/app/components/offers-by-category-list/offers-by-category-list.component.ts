@@ -9,10 +9,15 @@ import {CategoryService} from '../../services/category.service';
 import {NgForOf} from '@angular/common';
 import {OfferCardComponent} from '../offer-card/offer-card.component';
 import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {MatFormField, MatSuffix} from '@angular/material/form-field';
+import {MatIcon} from '@angular/material/icon';
+import {MatInput} from '@angular/material/input';
+import {MatIconButton} from '@angular/material/button';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-offers-by-category-list',
-  imports: [NavBarComponent, MatGridList, MatGridTile, NgForOf, OfferCardComponent, MatPaginator],
+  imports: [NavBarComponent, MatGridList, MatGridTile, NgForOf, OfferCardComponent, MatPaginator, MatFormField, MatIcon, MatInput, MatIconButton, FormsModule, MatSuffix],
   templateUrl: './offers-by-category-list.component.html',
   standalone: true,
   styleUrl: './offers-by-category-list.component.css'
@@ -23,6 +28,7 @@ export class OffersByCategoryListComponent {
   currentPage: number = 0;
   numOfItems: number = 10;
   offers: Offer[] = [];
+  searchQuery: string = '';
 
   constructor(private offerService: OfferService,private categoryService: CategoryService,
               private route: ActivatedRoute) {
@@ -50,5 +56,17 @@ export class OffersByCategoryListComponent {
   pageChanged(event: PageEvent) {
     this.currentPage = event.pageIndex;
     this.getOffersByCategory(this.currentPage, this.pageSize);
+  }
+
+  searchOffersByTitle() {
+    console.log('111111111111')
+    if(this.searchQuery !== '' && this.searchQuery !== ' ') {
+      console.log(this.searchQuery)
+      this.offerService.seachOfferByTitle(this.searchQuery, this.currentPage, this.pageSize).subscribe((data) => {
+        console.log("in search")
+        this.offers = data;
+        console.log(this.offers)
+      })
+    }
   }
 }
