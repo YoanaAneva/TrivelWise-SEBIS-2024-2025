@@ -65,26 +65,6 @@ public class CartService {
                 .orElseThrow(() -> new ResourceNotFoundException("no cart with id: " + cartId)));
     }
 
-//    public CartDTO payCart(Long cartId) {
-//        Cart cart = cartRepository.findById(cartId)
-//                .orElseThrow(() -> new ResourceNotFoundException("No cart found with id " + cartId));
-//
-//        payReservationsInCart(cartId);
-//        cart.setNumberOfItems(0);
-//        cart.setTotalPrice(0.0);
-//
-//        Cart emptyCart = cartRepository.save(cart);
-//        return cartMapper.mapToDTO(emptyCart);
-//    }
-
-//    public void payReservationsInCart(Long cartId) {
-//        List<Reservation> reservationsInCart = reservationRepository.findByCartIdAndIsPaidFalse(cartId);
-//        for (Reservation reservation : reservationsInCart) {
-//            reservation.setPaid(true);
-//            updateAvailableSpotsInOffer(reservation.getOffer().getId(), reservation.getTravelers().size(), reservation.getOffer().getTitle());
-//        }
-//        reservationRepository.saveAll(reservationsInCart);
-//    }
 
     public void addReservationToCart(Long cartId, Double newReservationPrice, Integer newItems) {
         Cart cart = cartRepository.findById(cartId)
@@ -112,17 +92,6 @@ public class CartService {
         }
     }
 
-//    private void updateAvailableSpotsInOffer(Long offerId, Integer takenSpots, String offerTitle) {
-//        Offer offer = offerRepository.findById(offerId).orElse(null);
-//        if(offer != null) {
-//            Integer availableSpots = offer.getAvailableSpots();
-//            if(takenSpots > availableSpots) {
-//                throw new RuntimeException("Available spots less than requested for offer: " + offerTitle);
-//            }
-//            offer.setAvailableSpots(availableSpots - takenSpots);
-//            offerRepository.save(offer);
-//        }
-//    }
 
     public Map<Long, Boolean> checkAvailability(Long cartId) {
         Map<Long, Boolean> availability = new HashMap<>();
