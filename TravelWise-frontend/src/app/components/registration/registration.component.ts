@@ -39,7 +39,7 @@ export class RegistrationComponent {
         birthdate: [null],
         phoneNumber: ['']
     }, {
-      validators: this.passwordsMatchValidator() }
+      validators: [this.passwordsMatchValidator(), this.phoneValidator()]}
     );
   }
 
@@ -84,6 +84,22 @@ export class RegistrationComponent {
       if (repPassword && password !== repPassword) {
         control.get('repPassword')?.setErrors({ passwordsMismatch: true });
         return { passwordsMismatch: true };
+      }
+      return null;
+    };
+  }
+
+  phoneValidator() : ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const number = control.get('phoneNumber')?.value;
+      if(number === null) {
+        return null;
+      }
+      const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+      const valid = phoneRegex.test(number);
+      if (!valid) {
+        control.get('phoneNumber')?.setErrors({ invalidPhone: true });
+        return { invalidPhone: true };
       }
       return null;
     };

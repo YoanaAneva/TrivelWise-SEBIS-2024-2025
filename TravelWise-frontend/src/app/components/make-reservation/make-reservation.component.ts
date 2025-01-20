@@ -1,5 +1,13 @@
 import { Component } from '@angular/core';
-import {FormControl, FormGroup, FormArray, ReactiveFormsModule, Validators} from '@angular/forms';
+import {
+  FormControl,
+  FormGroup,
+  FormArray,
+  ReactiveFormsModule,
+  Validators,
+  ValidatorFn,
+  AbstractControl, ValidationErrors
+} from '@angular/forms';
 import {NgForOf, NgIf} from '@angular/common';
 import {MatFormField} from '@angular/material/form-field';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -47,7 +55,7 @@ export class MakeReservationComponent {
           firstName: new FormControl(this.travelers.at(this.travelers.length - 1)?.get('firstName')?.value || '', [Validators.required]),
           surname: new FormControl(this.travelers.at(this.travelers.length - 1)?.get('surname')?.value || '', [Validators.required]),
           email: new FormControl(this.travelers.at(this.travelers.length - 1)?.get('email')?.value || '', [Validators.required, Validators.email]),
-          phoneNumber: new FormControl(this.travelers.at(this.travelers.length - 1)?.get('phoneNumber')?.value || '', [Validators.required]),
+          phoneNumber: new FormControl(this.travelers.at(this.travelers.length - 1)?.get('phoneNumber')?.value || '', [Validators.required, this.phoneValidator()]),
         })
       );
 
@@ -91,6 +99,18 @@ export class MakeReservationComponent {
       result += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return result;
+  }
+
+  phoneValidator() : ValidatorFn {
+    return (control: AbstractControl): ValidationErrors | null => {
+      const phoneRegex = /^\+?[1-9]\d{1,14}$/;
+      const valid = phoneRegex.test(control.value);
+      if(!valid) {
+        control.get('phoneNumber')?.setErrors({ invalidPhone: true });
+        return { invalidPhone: true };
+      }
+      return null;
+    };
   }
 
   formatDateToString(date: Date) {

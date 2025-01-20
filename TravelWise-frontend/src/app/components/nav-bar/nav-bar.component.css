@@ -61,13 +61,6 @@ mat-toolbar {
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.icon{
-  fill: white;
-  width: 40px;
-  height: 40px;
-  margin-top: 8px;
-}
-
 .profile-pic {
   width: 55px;
   height: 55px;
@@ -89,3 +82,19 @@ mat-toolbar {
   right: 6%;
   z-index: 1000;
 }
+
+.icon {
+  width: 30px;
+  height: 30px;
+}
+
+.cat-icon {
+  width: 15px;
+  height: 15px;
+  margin-right: 6px;
+}
+
+.cart {
+  margin-top: 12px;
+}
+
