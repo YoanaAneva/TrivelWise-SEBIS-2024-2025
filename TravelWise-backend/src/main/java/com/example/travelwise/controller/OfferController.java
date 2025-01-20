@@ -66,6 +66,13 @@ public class OfferController {
         return new ResponseEntity<>(offerService.getRecommendedOffers(offerId, 3), HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<OfferDTO>> searchOffers(@RequestParam String title,
+                                                       @RequestParam(required = false, defaultValue = "0") Integer page,
+                                                       @RequestParam(required = false, defaultValue = "9") Integer limit) {
+        return new ResponseEntity<>(offerService.searchOffersByTitle(title, page, limit), HttpStatus.OK);
+    }
+
     @PostMapping
     public ResponseEntity<OfferDTO> createOffer(@RequestPart (required = false) List<MultipartFile> images,
                                                 @RequestPart @Valid OfferDTO offerDTO) {

@@ -8,6 +8,7 @@ import com.example.travelwise.repository.OfferRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -90,6 +91,14 @@ public class OfferService {
 
     public List<OfferDTO> getRecommendedOffers(Long offerId, Integer limitCount) {
         return offerRepository.getRecommendedOffers(offerId, limitCount)
+                .stream()
+                .map(offerMapper::mapToDTO)
+                .toList();
+    }
+
+    public List<OfferDTO> searchOffersByTitle(String title, Integer page, Integer limitCount) {
+        Pageable pageable = PageRequest.of(page, limitCount, Sort.by("title").ascending());
+        return offerRepository.findByTitleContainingIgnoreCase(title, pageable)
                 .stream()
                 .map(offerMapper::mapToDTO)
                 .toList();
