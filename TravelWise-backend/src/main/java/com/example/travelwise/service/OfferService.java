@@ -22,12 +22,15 @@ public class OfferService {
     private final OfferRepository offerRepository;
     private final OfferMapper offerMapper;
     private final ImageService imageService;
+    private final ImageCloudinaryService imageCloudinaryService;
 
     @Autowired
-    public OfferService(OfferRepository offerRepository, OfferMapper offerMapper, ImageService imageService) {
+    public OfferService(OfferRepository offerRepository, OfferMapper offerMapper,
+                        ImageService imageService, ImageCloudinaryService imageCloudinaryService) {
         this.offerRepository = offerRepository;
         this.offerMapper = offerMapper;
         this.imageService = imageService;
+        this.imageCloudinaryService = imageCloudinaryService;
     }
 
     public List<OfferDTO> getAllOffers() {
@@ -72,7 +75,8 @@ public class OfferService {
         newOffer = offerRepository.save(newOffer);
         if (images != null) {
             for (MultipartFile image : images) {
-                imageService.addImageToOffer(image, newOffer);
+//                imageService.addImageToOffer(image, newOffer);
+                imageCloudinaryService.addImageToOffer(image, newOffer);
             }
         }
         return offerMapper.mapToDTO(newOffer);
