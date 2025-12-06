@@ -13,6 +13,7 @@ import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.InvalidParameterException;
 import java.util.List;
 
@@ -22,14 +23,17 @@ public class UserService {
     private final UserMapper userMapper;
     private final ImageService imageService;
     private final CartService cartService;
+    private final ImageCloudinaryService imageCloudinaryService;
 
     @Autowired
     public UserService(UserRepository userRepository, UserMapper userMapper,
-                       ImageService imageService, CartService cartService) {
+                       ImageService imageService, CartService cartService,
+                       ImageCloudinaryService imageCloudinaryService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.imageService = imageService;
         this.cartService = cartService;
+        this.imageCloudinaryService = imageCloudinaryService;
     }
 
     public List<UserDTO> getAllUsers(Integer page, Integer limit) {
@@ -49,8 +53,13 @@ public class UserService {
     public UserDTO createUser(MultipartFile profilePic, UserDTO userDTO) {
         User user = userRepository.save(userMapper.mapToEntity(userDTO));
         if (profilePic != null) {
-           String profilePicUrl = this.imageService.uploadImageToBucket(profilePic);
-           user.setProfilePictureUrl(profilePicUrl);
+//           String profilePicUrl = this.imageService.uploadImageToBucket(profilePic);
+            try {
+                String profilePicUrl = this.imageCloudinaryService.uploadImage(profilePic);
+                user.setProfilePictureUrl(profilePicUrl);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
            userRepository.save(user);
         }
         CartDTO newUserCart = new CartDTO(0.0,0,user.getId());
@@ -90,9 +99,9 @@ public class UserService {
         if(userToBeDeleted != null) {
             cartService.deleteCartByUserId(userId);
         }
-        if(userToBeDeleted.getProfilePictureUrl() != null) {
-            imageService.deleteFile(userToBeDeleted.getProfilePictureUrl());
-        }
+//        if(userToBeDeleted.getProfilePictureUrl() != null) {
+//            imageService.deleteFile(userToBeDeleted.getProfilePictureUrl());
+//        }
         userRepository.deleteById(userId);
     }
 }
