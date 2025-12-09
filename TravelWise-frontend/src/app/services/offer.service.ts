@@ -38,7 +38,7 @@ export class OfferService {
     );
   }
 
-  seachOfferByTitle(title: string, currentPage: number, pageSize: number): Observable<Offer[]> {
+  searchOffersByTitle(title: string, currentPage: number, pageSize: number): Observable<Offer[]> {
     let params = new HttpParams();
     params = params.set('title', title);
     if(currentPage !== undefined && currentPage !== null && currentPage >= 0) {

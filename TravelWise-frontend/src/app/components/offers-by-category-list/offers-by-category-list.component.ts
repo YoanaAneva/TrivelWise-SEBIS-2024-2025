@@ -59,14 +59,13 @@ export class OffersByCategoryListComponent {
   }
 
   searchOffersByTitle() {
-    console.log('111111111111')
     if(this.searchQuery !== '' && this.searchQuery !== ' ') {
-      console.log(this.searchQuery)
-      this.offerService.seachOfferByTitle(this.searchQuery, this.currentPage, this.pageSize).subscribe((data) => {
-        console.log("in search")
+      this.offerService.searchOffersByTitle(this.searchQuery, this.currentPage, this.pageSize).subscribe((data) => {
         this.offers = data;
-        console.log(this.offers)
       })
+    }
+    else {
+      this.getOffersByCategory(this.currentPage, this.pageSize);
     }
   }
 }
