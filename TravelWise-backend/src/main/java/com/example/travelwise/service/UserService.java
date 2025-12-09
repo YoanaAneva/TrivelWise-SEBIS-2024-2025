@@ -21,17 +21,17 @@ import java.util.List;
 public class UserService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    private final ImageService imageService;
-    private final CartService cartService;
+//    private final ImageService imageService;
     private final ImageCloudinaryService imageCloudinaryService;
+    private final CartService cartService;
 
     @Autowired
     public UserService(UserRepository userRepository, UserMapper userMapper,
-                       ImageService imageService, CartService cartService,
+                       CartService cartService,
                        ImageCloudinaryService imageCloudinaryService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
-        this.imageService = imageService;
+//        this.imageService = imageService;
         this.cartService = cartService;
         this.imageCloudinaryService = imageCloudinaryService;
     }
@@ -52,19 +52,19 @@ public class UserService {
 
     public UserDTO createUser(MultipartFile profilePic, UserDTO userDTO) {
         User user = userRepository.save(userMapper.mapToEntity(userDTO));
+        System.out.println(profilePic);
         if (profilePic != null) {
-//           String profilePicUrl = this.imageService.uploadImageToBucket(profilePic);
             try {
                 String profilePicUrl = this.imageCloudinaryService.uploadImage(profilePic);
                 user.setProfilePictureUrl(profilePicUrl);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-           userRepository.save(user);
         }
         CartDTO newUserCart = new CartDTO(0.0,0,user.getId());
         CartDTO newCart = cartService.createCart(newUserCart);
         user.setCartId(newCart.getId());
+        userRepository.save(user);
         return userMapper.mapToDTO(user);
     }
 

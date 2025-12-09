@@ -21,15 +21,15 @@ import java.util.Map;
 public class OfferService {
     private final OfferRepository offerRepository;
     private final OfferMapper offerMapper;
-    private final ImageService imageService;
+//    private final ImageService imageService;
     private final ImageCloudinaryService imageCloudinaryService;
 
     @Autowired
     public OfferService(OfferRepository offerRepository, OfferMapper offerMapper,
-                        ImageService imageService, ImageCloudinaryService imageCloudinaryService) {
+                        ImageCloudinaryService imageCloudinaryService) {
         this.offerRepository = offerRepository;
         this.offerMapper = offerMapper;
-        this.imageService = imageService;
+//        this.imageService = imageService;
         this.imageCloudinaryService = imageCloudinaryService;
     }
 
@@ -87,7 +87,8 @@ public class OfferService {
         if(offerToDelete != null) {
             List<Image> offerImages = offerToDelete.getImages();
             for (Image image : offerImages) {
-                imageService.deleteFile(image.getUrl());
+//                imageService.deleteFile(image.getUrl());
+                imageCloudinaryService.deleteImage(image.getId());
             }
         }
         offerRepository.deleteById(offerId);
