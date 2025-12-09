@@ -73,7 +73,11 @@ public class ImageCloudinaryService {
         String response = scanner.useDelimiter("\\A").next();
         scanner.close();
 
-        // Parse secure_url from JSON (simple approach)
+        // Parse secure_url from JSON
         return response.split("\"secure_url\":\"")[1].split("\"")[0];
+    }
+
+    void deleteImage(Long id) {
+        imageRepository.deleteById(id);
     }
 }
