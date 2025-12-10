@@ -1,15 +1,17 @@
-<app-nav-bar></app-nav-bar>
-<div class="image-container">
-  <img class="image" src="assets/home-page-image.png" alt="home page image"/>
-  <div class="home-page-message">
-    <p class="head-message">Explore the world on a budget</p>
-    <p class="sign-up-text">Have life-changing experiences, make an impact and enjoy the life of a real traveler</p>
-    <div *ngIf="!this.isUserLoggedIn">
-      <button mat-button class="sign-up-btn" (click)="navigateToRegistration()">Join for your next adventure</button>
-      <p class="log-in-message">Already have an account?
-        <button class="log-in-btn" (click)="navigateToLogIn()">Log in</button></p>
+<div class="home-page-wrapper">
+  <app-nav-bar></app-nav-bar>
+  <div class="image-container">
+    <img class="image" src="assets/home-page-image.png" alt="home page image"/>
+    <div class="home-page-message">
+      <p class="head-message">Explore the world on a budget</p>
+      <p class="sign-up-text">Have life-changing experiences, make an impact and enjoy the life of a real traveler...</p>
+      <div *ngIf="!this.isUserLoggedIn" class="log-in-wrapper">
+        <button mat-button class="sign-up-btn" (click)="navigateToRegistration()">Join for your next adventure</button>
+        <p class="log-in-message">Already have an account?
+          <button class="log-in-btn" (click)="navigateToLogIn()">Log in</button>
+        </p>
+      </div>
     </div>
   </div>
+  <app-recommendations-list *ngIf="this.isUserLoggedIn"></app-recommendations-list>
 </div>
-<app-recommendations-list *ngIf="this.isUserLoggedIn"></app-recommendations-list>
-
