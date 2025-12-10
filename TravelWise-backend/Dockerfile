@@ -1,16 +1,19 @@
-# 1. COPY ONLY THE POM (Dependencies)
+# Build stage
+FROM maven:3.9.6-eclipse-temurin-21 AS build
+WORKDIR /app
+
+# Copy the dependencies
 COPY pom.xml .
 
-# 2. DOWNLOAD DEPENDENCIES SEPARATELY (Leverage cache here!)
-# This step only runs if pom.xml changes. It downloads dependencies.
+# Download dependencies separately
+# This step only runs if pom.xml changes. It downloads dependencies
 RUN mvn dependency:go-offline
 
-# 3. COPY THE SOURCE CODE (The code that changes often)
-# If this file changes, only the rest of the steps will re-run,
-# reusing the cached layer from step 2.
+# Copy the source code. If this file changes, only the rest of
+# the steps will re-run, reusing the cached layer
 COPY src ./src
 
-# 4. BUILD THE APPLICATION
+# Build the application
 RUN mvn -DskipTests clean package
 
 # Runtime stage
