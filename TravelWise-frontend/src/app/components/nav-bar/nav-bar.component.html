@@ -4,7 +4,7 @@
   </button>
   <div class="menus">
     <div *ngFor="let department of departments" class="menu">
-      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="white" [attr.d]="department.icon"/></svg>
+      <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 10 570 420"><path fill="white" [attr.d]="department.icon"/></svg>
       <button mat-button class="option" [matMenuTriggerFor]="menu">{{department.name}}</button>
       <mat-menu #menu="matMenu">
         <button mat-menu-item class="category"
