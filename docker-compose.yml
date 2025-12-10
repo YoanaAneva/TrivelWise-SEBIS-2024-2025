@@ -1,0 +1,37 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: travel_wise_postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: travel_wise_demo
+    volumes:
+      - ./TravelWise-backend/src/main/resources/db/travel_wise_dump.sql:/docker-entrypoint-initdb.d/travel_wise_dump.sql
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./TravelWise-backend
+    container_name: travel_wise_backend
+    depends_on:
+      - postgres
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/travel_wise_demo
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: 1234
+
+    ports:
+      - "8080:8080"
+    restart: always
+
+  frontend:
+    build:
+      context: ./TravelWise-frontend
+    container_name: travel_wise_frontend
+    ports:
+      # Map container port 80 to host port 8081
+      - "8081:80"
+    depends_on:
+      - backend
