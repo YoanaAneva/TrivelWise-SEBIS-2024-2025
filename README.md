@@ -53,6 +53,7 @@ docker compose up --build
 | **Frontend**    | [http://localhost:8081](http://localhost:8081)         | Angular app served by Nginx |
 | **Backend API** | [http://localhost:8080/api](http://localhost:8080/api) | Spring Boot REST API        |
 | **Postgres**    | localhost:5432                                         | PostgreSQL container        |
+
 The database automatically initializes using the SQL file:
 ```
 TravelWise-backend/src/main/resources/db/travel_wise_dump.sql
