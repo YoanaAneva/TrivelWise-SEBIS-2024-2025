@@ -37,7 +37,7 @@
       </div>
       <p class="small-text">Price per person:</p>
       <div class="price-and-reservation">
-        <div class="price-box"><span class="price-text">{{ offer.price }} BGN</span></div>
+        <div class="price-box"><span class="price-text">{{ offer.price }} €</span></div>
         <button class="reservation-btn" mat-button *ngIf="isUserLoggedIn && offer.availableSpots > 0"
                 (click)="navigateToMakeReservation()">Reserve!</button>
         <button class="reservation-btn unavailable" mat-button *ngIf="!isUserLoggedIn  && offer.availableSpots > 0">
