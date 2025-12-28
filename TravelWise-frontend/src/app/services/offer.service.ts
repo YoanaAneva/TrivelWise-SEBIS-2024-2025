@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import {HttpClient, HttpParams} from '@angular/common/http';
 import {Offer} from '../models/offer';
 import {Observable, of, tap} from 'rxjs';
+import {OfferFilters} from '../models/offerFilters';
 
 @Injectable({
   providedIn: 'root'
@@ -17,13 +18,7 @@ export class OfferService {
   }
 
   getOffersByCategory(categoryId: number, currentPage: number, pageSize: number) {
-    let params = new HttpParams();
-    if(currentPage !== undefined && currentPage !== null && currentPage >= 0) {
-      params = params.set('page', currentPage.toString());
-    }
-    if(pageSize !== undefined && pageSize !== null && pageSize >= 0) {
-      params = params.set('limit', pageSize.toString());
-    }
+    let params = this.makeHttpParams(currentPage, pageSize);
     return this.http.get<Offer[]>(this.apiUrl + '/category/available/' + categoryId, { params });
   }
 
@@ -39,15 +34,24 @@ export class OfferService {
   }
 
   searchOffersByTitle(title: string, currentPage: number, pageSize: number): Observable<Offer[]> {
-    let params = new HttpParams();
+    let params = this.makeHttpParams(currentPage, pageSize);
     params = params.set('title', title);
+    return this.http.get<Offer[]>(this.apiUrl + '/search', { params });
+  }
+
+  filterOffers(filters: OfferFilters, currentPage: number, pageSize: number) : Observable<Offer[]> {
+    const params = this.makeHttpParams(currentPage, pageSize);
+    return this.http.post<Offer[]>(this.apiUrl + '/filter', filters, { params });
+  }
+
+  makeHttpParams(currentPage: number, pageSize: number) {
+    let params = new HttpParams();
     if(currentPage !== undefined && currentPage !== null && currentPage >= 0) {
       params = params.set('page', currentPage.toString());
     }
     if(pageSize !== undefined && pageSize !== null && pageSize >= 0) {
       params = params.set('limit', pageSize.toString());
     }
-    console.log(params);
-    return this.http.get<Offer[]>(this.apiUrl + '/search', { params });
+    return params;
   }
 }

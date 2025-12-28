@@ -1,24 +1,43 @@
+.offers-list-container {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.right-section {
+  width: 100%;
+  margin-left: 16px;
+  margin-right: 16px;
+  position: relative;
+}
+
 .offers-container {
   display: flex;
   flex-direction: column;
-  margin-top: 2rem;
   position: relative;
+  top: 5rem;
 }
 
 mat-grid-list {
   width: 100%;
 }
 
-mat-grid-tile {
-  display: flex;
-  align-items: stretch;
+.search-field {
+  height: 65px;
+  width: 260px;
+}
+
+.search-bar {
+  position: absolute;
+  top: 1rem;
+  right: 0;
 }
 
 .paginator-wrapper {
-  margin-top: 12px;
+  margin-top: 14px;
   position: absolute;
   top: 100%;
-  left: 36%;
+  left: 30%;
 }
 
 .paginator{
@@ -35,13 +54,4 @@ mat-grid-tile {
 
 .page-size {
   margin-right: 30px;
-}
-
-.search-field {
-  height: 65px;
-  width: 260px;
-}
-
-.search-bar {
-  margin: 14px auto auto 920px;
 }

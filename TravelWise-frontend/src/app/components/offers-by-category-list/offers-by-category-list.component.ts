@@ -1,8 +1,9 @@
-import {Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavBarComponent} from '../nav-bar/nav-bar.component';
+import {FiltersComponent} from '../filters/filters.component';
 import {Category} from '../../models/category';
 import {Offer} from '../../models/offer';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute} from '@angular/router';
 import {OfferService} from '../../services/offer.service';
 import {MatGridList, MatGridTile} from '@angular/material/grid-list';
 import {CategoryService} from '../../services/category.service';
@@ -12,12 +13,15 @@ import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatFormField, MatSuffix} from '@angular/material/form-field';
 import {MatIcon} from '@angular/material/icon';
 import {MatInput} from '@angular/material/input';
-import {MatIconButton} from '@angular/material/button';
+import {MatButton, MatIconButton} from '@angular/material/button';
 import {FormsModule} from '@angular/forms';
+import {OfferFilters} from '../../models/offerFilters';
 
 @Component({
   selector: 'app-offers-by-category-list',
-  imports: [NavBarComponent, MatGridList, MatGridTile, NgForOf, OfferCardComponent, MatPaginator, MatFormField, MatIcon, MatInput, MatIconButton, FormsModule, MatSuffix],
+  imports: [NavBarComponent, FiltersComponent, MatGridList, MatGridTile, NgForOf,
+    OfferCardComponent, MatPaginator, MatFormField, MatIcon, MatInput,
+    MatIconButton, FormsModule, MatSuffix, MatButton],
   templateUrl: './offers-by-category-list.component.html',
   standalone: true,
   styleUrl: './offers-by-category-list.component.css'
@@ -66,6 +70,16 @@ export class OffersByCategoryListComponent {
     }
     else {
       this.getOffersByCategory(this.currentPage, this.pageSize);
+    }
+  }
+
+  onFiltersChanged(filters: OfferFilters) {
+    if (filters) {
+      filters.categoryId = this.category.id!;
+      console.log(filters);
+      this.offerService.filterOffers(filters, this.currentPage, this.pageSize).subscribe((data) => {
+        this.offers = data;
+      })
     }
   }
 }
