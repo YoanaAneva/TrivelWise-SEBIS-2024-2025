@@ -1,7 +1,7 @@
 import {Component, Input} from '@angular/core';
 import {StripeService} from '../../services/stripe.service';
 import {Cart} from '../../models/cart';
-import {ChargeRequest} from '../../models/ChargeRequest';
+import {ChargeRequest} from '../../models/chargeRequest';
 import {CartService} from '../../services/cart.service';
 import {FormsModule} from '@angular/forms';
 import {MatButton} from '@angular/material/button';

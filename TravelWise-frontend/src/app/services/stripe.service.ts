@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {loadStripe, Stripe} from '@stripe/stripe-js';
 import {HttpClient} from '@angular/common/http';
-import {ChargeRequest} from '../models/ChargeRequest';
+import {ChargeRequest} from '../models/chargeRequest';
 import {Observable} from 'rxjs';
 
 @Injectable({
