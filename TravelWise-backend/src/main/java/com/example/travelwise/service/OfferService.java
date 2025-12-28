@@ -1,14 +1,17 @@
 package com.example.travelwise.service;
 
 import com.example.travelwise.dto.OfferDTO;
+import com.example.travelwise.dto.OfferFiltersDTO;
 import com.example.travelwise.entity.Image;
 import com.example.travelwise.entity.Offer;
 import com.example.travelwise.mapper.OfferMapper;
 import com.example.travelwise.repository.OfferRepository;
+import com.example.travelwise.specification.OfferSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -69,6 +72,28 @@ public class OfferService {
                 .map(offerMapper::mapToDTO)
                 .toList();
     }
+    public List<OfferDTO> getRecommendedOffers(Long offerId, Integer limitCount) {
+        return offerRepository.getRecommendedOffers(offerId, limitCount)
+                .stream()
+                .map(offerMapper::mapToDTO)
+                .toList();
+    }
+
+    public List<OfferDTO> searchOffersByTitle(String title, Integer page, Integer limitCount) {
+        Pageable pageable = PageRequest.of(page, limitCount, Sort.by("title").ascending());
+        return offerRepository.findByTitleContainingIgnoreCase(title, pageable)
+                .stream()
+                .map(offerMapper::mapToDTO)
+                .toList();
+    }
+
+    public List<OfferDTO> filterOffers(OfferFiltersDTO filters,  Integer page, Integer limit) {
+        Pageable pageable = PageRequest.of(page, limit);
+        return offerRepository.findAll(OfferSpecification.filter(filters), pageable)
+                .stream()
+                .map(offerMapper::mapToDTO)
+                .toList();
+    }
 
     public OfferDTO createOffer(OfferDTO offerDTO, List<MultipartFile> images) {
         Offer newOffer = offerMapper.mapToEntity(offerDTO);
@@ -92,20 +117,5 @@ public class OfferService {
             }
         }
         offerRepository.deleteById(offerId);
-    }
-
-    public List<OfferDTO> getRecommendedOffers(Long offerId, Integer limitCount) {
-        return offerRepository.getRecommendedOffers(offerId, limitCount)
-                .stream()
-                .map(offerMapper::mapToDTO)
-                .toList();
-    }
-
-    public List<OfferDTO> searchOffersByTitle(String title, Integer page, Integer limitCount) {
-        Pageable pageable = PageRequest.of(page, limitCount, Sort.by("title").ascending());
-        return offerRepository.findByTitleContainingIgnoreCase(title, pageable)
-                .stream()
-                .map(offerMapper::mapToDTO)
-                .toList();
     }
 }

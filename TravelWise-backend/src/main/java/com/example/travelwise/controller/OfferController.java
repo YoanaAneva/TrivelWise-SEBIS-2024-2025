@@ -2,6 +2,7 @@ package com.example.travelwise.controller;
 
 import com.amazonaws.services.acmpca.model.ResourceNotFoundException;
 import com.example.travelwise.dto.OfferDTO;
+import com.example.travelwise.dto.OfferFiltersDTO;
 import com.example.travelwise.repository.OfferRepository;
 import com.example.travelwise.service.OfferService;
 import jakarta.validation.Valid;
@@ -71,6 +72,13 @@ public class OfferController {
                                                        @RequestParam(required = false, defaultValue = "0") Integer page,
                                                        @RequestParam(required = false, defaultValue = "9") Integer limit) {
         return new ResponseEntity<>(offerService.searchOffersByTitle(title, page, limit), HttpStatus.OK);
+    }
+
+    @PostMapping("/filter")
+    public ResponseEntity<List<OfferDTO>> filterOffers(@RequestBody OfferFiltersDTO filters,
+                                                       @RequestParam(required = false, defaultValue = "0") Integer page,
+                                                       @RequestParam(required = false, defaultValue = "9") Integer limit) {
+        return new ResponseEntity<>(offerService.filterOffers(filters, page, limit), HttpStatus.OK);
     }
 
     @PostMapping
